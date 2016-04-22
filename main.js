@@ -59,9 +59,10 @@ Background.prototype.draw = function () {
 
 Background.prototype.update = function () {};
 
-// myspritesheet - Little Warrior Dude =D
-function Warrior(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 56, 56, 4, .18, 4, true, 1.5);
+// myspritesheet 
+function Warrior(game, walkingSprite, runningSprite) {
+    this.walkingAnimation = new Animation(walkingSprite, 70, 70, 8, .2, 8, true, 1);
+    this.runningAnimation = new Animation(runningSprite, 70, 70, 8, .2, 8, true, 1);
     this.speed = 100;
     this.x = 200;
     this.y = 0;
@@ -110,21 +111,26 @@ Warrior.prototype.draw = function () {
     // change source y-coordinate of the spritesheet base on
     // current direction that the warrior is moving
     if (this.game.warriorDirection === "up") {
-        startY = 168;
+        startY = 210;
     } else if (this.game.warriorDirection === "down") {
         startY = 0;
 
     } else if (this.game.warriorDirection === "left") {
-        startY = 56;
+        startY = 70;
 
     } else if (this.game.warriorDirection === "right") {
-        startY = 112;
+        startY = 140;
     }
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y, startY, this.game.warriorMoving);
+    if (this.game.warriorRunning) {
+        this.runningAnimation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y, startY, this.game.warriorMoving);
+    } else {
+        this.walkingAnimation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y, startY, this.game.warriorMoving);
+    }
 }
 
 AM.queueDownload("./img/grass_background.jpg");
-AM.queueDownload("./img/myspritesheet.png");
+AM.queueDownload("./img/WarriorWalking.png");
+AM.queueDownload("./img/WarriorRunning.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -135,6 +141,7 @@ AM.downloadAll(function () {
     gameEngine.start();
 
     gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/grass_background.jpg")));
-    gameEngine.addEntity(new Warrior(gameEngine, AM.getAsset("./img/myspritesheet.png")));
-
+    gameEngine.addEntity(new Warrior(gameEngine, 
+                                     AM.getAsset("./img/WarriorWalking.png"),
+                                     AM.getAsset("./img/WarriorRunning.png")));
 });
