@@ -62,7 +62,7 @@ Background.prototype.update = function () {};
 // myspritesheet 
 function Warrior(game, walkingSprite, runningSprite) {
     this.walkingAnimation = new Animation(walkingSprite, 70, 69, 8, .2, 8, true, 1);
-    this.runningAnimation = new Animation(runningSprite, 70, 69, 8, .2, 8, true, 1);
+    this.runningAnimation = new Animation(runningSprite, 70, 69, 8, .08, 8, true, 1);
     this.speed = 100;
     this.x = 200;
     this.y = 0;
